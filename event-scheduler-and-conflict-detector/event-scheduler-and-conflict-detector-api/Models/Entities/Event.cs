@@ -1,4 +1,5 @@
-﻿namespace event_scheduler_and_conflict_detector_api.Models.Entities
+﻿
+namespace event_scheduler_and_conflict_detector_api.Models.Entities
 {
     public class Event
     {
@@ -22,9 +23,8 @@
 			{
 
 			}
-			public Event(Guid id, string title, string description, DateTime startTime, DateTime endTime, string location, List<string> attendees, Enum eventType)
+			public Event(string title, string description, DateTime startTime, DateTime endTime, string location, List<string> attendees, Enum eventType)
 			{
-				Id = id;
 				Title = title;
 				Description = description;
 				StartTime = startTime;
@@ -34,8 +34,9 @@
 				EventType = eventType;
 		}
 
-		}
+			public static DateTime GetStartTime()
+			{
+				return StartTime;
+			}
+    }
 	}
-
-}
-}
