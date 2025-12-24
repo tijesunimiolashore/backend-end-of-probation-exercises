@@ -12,9 +12,10 @@ namespace event_scheduler_and_conflict_detector_api.Controllers
 	public class EventsController : ControllerBase
 	{
 		private static readonly List<Event> myEvent = new List<Event>();
-		public Event newEvent = new Event();
+        readonly Event newEvent = new Event();
 
-		[HttpPost]
+
+        [HttpPost]
 		//Adds a New Event
 		public IActionResult AddAllEvents(AddEventDto addEventDto)
 		{
@@ -57,18 +58,16 @@ namespace event_scheduler_and_conflict_detector_api.Controllers
 		//Get All Events
 		public IActionResult GetAllEvents()
 		{
-			var events = myEvent.ToList().OrderBy(newEvent.StartTime);
+			var events = myEvent.ToList();
 
 			return Ok(events);
 		}
 
 		[HttpGet]
-		[Route("{startTime: DateTime}")]
-		[Route("{endTime: DateTime}")]
 		//Get All Events within a Specific Range
 		public IActionResult GetAllEventsByDate(DateTime startTime, DateTime endTime)
 		{
-			var objectOfFind = myEvent.Where(startTime => newEvent.StartTime.Equals("2020-12-23") && endTime => newEvent.EndTime.Equals("2020-12-30"));
+			var objectOfFind = myEvent.Where(startTime => newEvent.StartTime.Equals("2020-12-23"));
 
 			if (objectOfFind is null)
 			{
