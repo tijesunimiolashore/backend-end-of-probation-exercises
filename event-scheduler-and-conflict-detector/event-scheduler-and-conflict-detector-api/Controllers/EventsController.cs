@@ -15,9 +15,10 @@ namespace event_scheduler_and_conflict_detector_api.Controllers
 		public Event newEvent = new Event();
 
 		[HttpPost]
+		//Adds a New Event
 		public IActionResult AddAllEvents(AddEventDto addEventDto)
 		{
-			if (newEvent.Title is not null && newEvent.StartTime < newEvent.EndTime)
+			if (!newEvent.Title.Equals("") && newEvent.StartTime < newEvent.EndTime)
 			{
 				var addEvent = new Event()
 				{
@@ -32,7 +33,17 @@ namespace event_scheduler_and_conflict_detector_api.Controllers
 				};
 				try
 				{
-					myEvent.Add(addEvent);
+					foreach (var i in myEvent){
+						if (i.StartTime <= i.EndTime)
+						{
+							myEvent.Add(addEvent);
+						}
+						else
+						{
+							return Conflict(409);
+						}
+
+					}
 				}
 				catch(Exception ex)
 				{
@@ -43,6 +54,7 @@ namespace event_scheduler_and_conflict_detector_api.Controllers
 		}
 
 		[HttpGet]
+		//Get All Events
 		public IActionResult GetAllEvents()
 		{
 			var events = myEvent.ToList().OrderBy(newEvent.StartTime);
@@ -53,9 +65,10 @@ namespace event_scheduler_and_conflict_detector_api.Controllers
 		[HttpGet]
 		[Route("{startTime: DateTime}")]
 		[Route("{endTime: DateTime}")]
+		//Get All Events within a Specific Range
 		public IActionResult GetAllEventsByDate(DateTime startTime, DateTime endTime)
 		{
-			var objectOfFind = myEvent.Where(startTime => newEvent.StartTime.Equals("2020-12-23") && endTime => newEvent.EndTime.Equals("2023-12-30"));
+			var objectOfFind = myEvent.Where(startTime => newEvent.StartTime.Equals("2020-12-23") && endTime => newEvent.EndTime.Equals("2020-12-30"));
 
 			if (objectOfFind is null)
 			{
@@ -65,6 +78,7 @@ namespace event_scheduler_and_conflict_detector_api.Controllers
 		}
 
 		[HttpPut]
+		//Update an Existing Event
 		[Route("{id:guid}")]
 		public IActionResult UpdateEvents(Guid id, UpdateEventDto updateEventDto)
 		{
@@ -88,6 +102,7 @@ namespace event_scheduler_and_conflict_detector_api.Controllers
 		}
 
 		[HttpDelete]
+		//Remove and Existing Record
 		public IActionResult DeleteEvents(Guid id)
 		{
 			var objectOfFind = myEvent.Where(x => x.Id == id).FirstOrDefault();
