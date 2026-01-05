@@ -8,7 +8,6 @@ namespace customer_support_api.Service
 		public TicketService()
 		{
 			var _ticket = new Ticket("1", "Maiden 1", "A Ticket to the Mall", (Status)2);
-
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace customer_support_api.Controllers
 				if (myticket.Subject.Equals("") && myticket.Description.Equals("")) {
 					logger.LogError("Subject and Description cannot be empty");
 				}
-				var ticket = new Ticket("2", "Maiden", "A Mall Ticket", (Status) 3);
+				var ticket = new Ticket("2", "Maiden", "A Mall Ticket", (Status) 1);
 				_ticketList.Add(ticket);
 				return Ok(ticket);
 			}
@@ -44,7 +44,7 @@ namespace customer_support_api.Controllers
 		[Route("{id}")]
 		public IActionResult getTicketById(string id)
 		{
-			logger.LogInformation("Get a new instance for ticket by Id");
+			logger.LogInformation("Get a new item for ticket by Id");
 
 			try
 			{
